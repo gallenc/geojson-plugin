@@ -51,6 +51,7 @@
     <module>feature</module>
     <module>kar-descriptor</module>
     <module>kar-package</module>
+    <module>docker-compose</module>
   </modules>
 
   <build>
