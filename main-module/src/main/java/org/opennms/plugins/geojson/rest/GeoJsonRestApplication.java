@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package org.opennms.plugins.messagenotifier.rest;
+package org.opennms.plugins.geojson.rest;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,10 +24,10 @@ import javax.ws.rs.core.Application;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MqttRestApplication extends Application {
-	private static final Logger LOG = LoggerFactory.getLogger(MqttRestApplication.class);
+public class GeoJsonRestApplication extends Application {
+	private static final Logger LOG = LoggerFactory.getLogger(GeoJsonRestApplication.class);
 	
-	public MqttRestApplication(){
+	public GeoJsonRestApplication(){
 		super();
 		LOG.warn("Mqtt ReST Service starting");
 	}
@@ -39,7 +39,7 @@ public class MqttRestApplication extends Application {
 	public Set<Class<?>> getClasses()
 	{
 		Set<Class<?>> s = new HashSet<Class<?>>();
-		s.add(MqttRxRestImpl.class);
+		s.add(GeoJsonRestImpl.class);
 		//s.add(JacksonJaxbJsonProvider.class); //jackson
 		return s;
 	}

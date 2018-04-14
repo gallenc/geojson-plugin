@@ -13,13 +13,12 @@
  * limitations under the License.
  */
 
-package org.opennms.plugins.messagenotifier.rest;
+package org.opennms.plugins.geojson.rest;
 
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.opennms.plugins.messagenotifier.rest.MqttRxService;
-
+import org.opennms.plugins.geojson.NodeGeoJsonService;
 
 
 /** 
@@ -29,31 +28,26 @@ import org.opennms.plugins.messagenotifier.rest.MqttRxService;
  */
 public class ServiceLoader {
 
-	private static AtomicReference<MqttRxService> m_mqttRxService = new AtomicReference<>();
+	private static AtomicReference<NodeGeoJsonService> m_nodeGeoJsonService = new AtomicReference<>();
 	
 
 	public ServiceLoader(){
 		super();
 	}
 
-	public ServiceLoader(MqttRxService mqttRxService){
+	public ServiceLoader(NodeGeoJsonService nodeGeoJsonService){
 		super();
-		setMqttRxService(mqttRxService);
+		setNodeGeoJsonService(nodeGeoJsonService);
 	}
 
-	/**
-	 * @return the mqttRxService
-	 */
-	public static MqttRxService getMqttRxService() {
-		return m_mqttRxService.get();
+	public static NodeGeoJsonService getNodeGeoJsonService() {
+		return m_nodeGeoJsonService.get();
 	}
 
-	/**
-	 * @param mqttRxService the mqttRxService to set
-	 */
-	public static void setMqttRxService(MqttRxService mqttRxService) {
-		m_mqttRxService.set(mqttRxService);
+	public static void setNodeGeoJsonService(NodeGeoJsonService nodeGeoJsonServicex) {
+		m_nodeGeoJsonService.set(nodeGeoJsonServicex);
 	}
+
 	
 
 }

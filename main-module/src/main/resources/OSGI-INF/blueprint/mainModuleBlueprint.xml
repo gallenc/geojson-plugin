@@ -36,62 +36,27 @@
   </bean>
 
   <!-- this bean is initialised by controller -->
-  <bean id="nodeByForeignSourceCache" class="org.opennms.plugins.GeoJsonPlugin.NodeByForeignSourceCacheImpl" destroy-method="destroy">
-    <property name="nodeDao" ref="nodeDao" />
-    <property name="monitoringLocationDao" ref="monitoringLocationDao" />
-    <property name="ipInterfaceDao" ref="ipInterfaceDao" />
-    <property name="assetRecordDao" ref="assetRecordDao" />
-    <property name="eventProxy" ref="eventProxy" />
-    <property name="eventIpcManager" ref="eventIpcManager" />
-    <property name="transactionOperations" ref="transactionOperations" />
+<!--   <bean id="nodeByForeignSourceCache" class="org.opennms.plugins.GeoJsonPlugin.NodeByForeignSourceCacheImpl" destroy-method="destroy"> -->
+<!--     <property name="nodeDao" ref="nodeDao" /> -->
+<!--     <property name="monitoringLocationDao" ref="monitoringLocationDao" /> -->
+<!--     <property name="ipInterfaceDao" ref="ipInterfaceDao" /> -->
+<!--     <property name="assetRecordDao" ref="assetRecordDao" /> -->
+<!--     <property name="eventProxy" ref="eventProxy" /> -->
+<!--     <property name="eventIpcManager" ref="eventIpcManager" /> -->
+<!--     <property name="transactionOperations" ref="transactionOperations" /> -->
     <!-- <property name="MAX_TTL" value="${org.opennms.plugin.GeoJsonPlugin.cache_max_ttl}" /> -->
     <!-- <property name="MAX_SIZE" value="${org.opennms.plugin.GeoJsonPlugin.cache_max_size}" /> -->
     <!-- <property name="createMissingNodes" value="${org.opennms.plugin.GeoJsonPlugin.create-missing-nodes}" /> -->
     <!-- <property name="createDummyInterfaces" value="${org.opennms.plugin.GeoJsonPlugin.create-dummy-interfaces}" /> -->
     <!-- <property name="createNodeAssetData" value="${org.opennms.plugin.GeoJsonPlugin.create-node-asset-data}" /> -->
-  </bean>
+<!--   </bean> -->
 
-  <bean id="eventPersistor" class="org.opennms.plugins.messagenotifier.eventnotifier.EventPersistorImpl">
-    <property name="eventProxy" ref="eventProxy" />
-    <property name="nodeByForeignSourceCache" ref="nodeByForeignSourceCache" />
-  </bean>
-
-  <bean id="dataPersistor" class="org.opennms.plugins.messagenotifier.datanotifier.DataPersistorImpl">
-    <property name="nodeByForeignSourceCache" ref="nodeByForeignSourceCache" />
-    <property name="persisterFactory" ref="persisterFactory" /> 
-  </bean>
+ 
 
   <!-- this bean is initialised by controller -->
-  <bean id="notificationMessageHandler" class=" org.opennms.plugins.messagenotifier.NotificationMessageHandler" destroy-method="destroy">
-    <property name="dataPersistor" ref="dataPersistor" />
-    <property name="eventPersistor" ref="eventPersistor" />
-  </bean>
-
-  <!-- this bean is initialised by controller -->
-  <bean id="messageQueue" class="org.opennms.plugins.messagenotifier.MessageNotificationClientQueueImpl" destroy-method="destroy">
-    <property name="outgoingNotificationHandlingClients">
-      <list>
-        <ref component-id="notificationMessageHandler" />
-      </list>
-    </property>
-  </bean>
-
-  <bean id="controller" class="org.opennms.plugins.messagenotifier.Controller" init-method="init" destroy-method="destroy">
-    <property name="configFile" value="$[karaf.etc]$[file.separator]mqtt-interface-config.xml" />
-    <property name="nodeByForeignSourceCacheImpl" ref="nodeByForeignSourceCache" />
-    <property name="notificationMessageHandler" ref="notificationMessageHandler" />
-    <property name="messageNotificationClientQueueImpl" ref="messageQueue" />
-    <property name="messageReceiverServices">
-      <list>
-        <ref component-id="mqttRxService" />
-      </list>
-    </property>
-  </bean>
-
-  <!-- this bean is initialised by controller -->
-  <bean id="mqttRxService" class="org.opennms.plugins.messagenotifier.rest.MqttRxServiceImpl">
-    <property name="clientInstanceId" value="opennms-rest-client" />
-    <property name="clientType" value="opennms-rest-client" />
+<!--   <bean id="mqttRxService" class="org.opennms.plugins.geojson.rest.MqttRxServiceImpl"> -->
+<!--     <property name="clientInstanceId" value="opennms-rest-client" /> -->
+<!--     <property name="clientType" value="opennms-rest-client" /> -->
 
     <!-- now configured in controller -->
     <!-- <property name="topicList"> -->
@@ -106,24 +71,24 @@
     <!-- </bean> -->
     <!-- </list> -->
     <!-- </property> -->
-  </bean>
+<!--   </bean> -->
 
-  <bean id="mqttRestApplication" class="org.opennms.plugins.messagenotifier.rest.MqttRestApplication" destroy-method="destroyMethod" />
+<!--   <bean id="mqttRestApplication" class="org.opennms.plugins.geojson.rest.GeoJsonRestApplication" destroy-method="destroyMethod" /> -->
 
-  <!-- constructor public ServiceLoader(MqttService mqttService) -->
-  <bean id="serviceLoader" class="org.opennms.plugins.messagenotifier.rest.ServiceLoader">
-    <argument index="0" ref="mqttRxService" />
-  </bean>
+<!-- constructor public ServiceLoader(MqttService mqttService) --> 
+<!--   <bean id="serviceLoader" class="org.opennms.plugins.geojson.rest.ServiceLoader"> -->
+<!--     <argument index="0" ref="mqttRxService" /> -->
+<!--   </bean> -->
 
   <!-- ReST Servelet configuration for jersey. Service will be at /opennms/plugin/mqtt/v1-0/receive/mqtt-events/0/ -->
-  <service interface="javax.servlet.http.HttpServlet">
-    <service-properties>
-      <entry key="alias" value="/plugin/mqtt/v1-0" />
-    </service-properties>
-    <bean class="com.sun.jersey.spi.container.servlet.ServletContainer">
-      <argument ref="mqttRestApplication" />
-    </bean>
-  </service>
+<!--   <service interface="javax.servlet.http.HttpServlet"> -->
+<!--     <service-properties> -->
+<!--       <entry key="alias" value="/plugin/geojson/v1-0" /> -->
+<!--     </service-properties> -->
+<!--     <bean class="com.sun.jersey.spi.container.servlet.ServletContainer"> -->
+<!--       <argument ref="mqttRestApplication" /> -->
+<!--     </bean> -->
+<!--   </service> -->
 
   <!-- ReST Servelet configuration for jersey -->
   <!-- <bean id="mqttRestServlet" class="com.sun.jersey.spi.container.servlet.ServletContainer"> -->

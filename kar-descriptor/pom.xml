@@ -2,7 +2,7 @@
   <parent>
     <groupId>org.opennms.plugins</groupId>
     <artifactId>GeoJsonPlugin.parent</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
   </parent>
 
   <!-- Feature Definition -->

@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.opennms.plugins</groupId>
   <artifactId>GeoJsonPlugin.parent</artifactId>
-  <version>0.0.3-SNAPSHOT</version>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>GeoJsonPlugin.parent</name>
   <description>GeoJsonPlugin Parent Project</description>
@@ -51,8 +51,6 @@
     <module>feature</module>
     <module>kar-descriptor</module>
     <module>kar-package</module>
-    <module>test-onejar</module>
-    <module>mqtt-docker-compose</module>
   </modules>
 
   <build>

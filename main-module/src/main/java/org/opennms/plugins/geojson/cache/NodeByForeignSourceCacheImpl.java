@@ -26,7 +26,7 @@
  *     http://www.opennms.com/
  *******************************************************************************/
 
-package org.opennms.plugins.mqttclient;
+package org.opennms.plugins.geojson.cache;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -515,7 +515,7 @@ public class NodeByForeignSourceCacheImpl implements NodeByForeignSourceCache, E
 	// EventListener
 	@Override
 	public String getName() {
-		return "MQTTNodeByForeignSourceCache";
+		return NodeByForeignSourceCacheImpl.class.getCanonicalName();
 	}
 
 	@Override

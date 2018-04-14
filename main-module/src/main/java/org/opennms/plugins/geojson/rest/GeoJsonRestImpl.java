@@ -13,11 +13,11 @@
  * limitations under the License.
  */
 
-package org.opennms.plugins.messagenotifier.rest;
+package org.opennms.plugins.geojson.rest;
 
 
-import org.opennms.plugins.messagenotifier.MessageNotification;
-import org.opennms.plugins.messagenotifier.rest.MqttRxService;
+
+import org.opennms.plugins.geojson.NodeGeoJsonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,12 +34,12 @@ import javax.ws.rs.core.Response;
 /**
  * REST service to post mqtt data to opennms
  */
-@Path("/receive")
-public class MqttRxRestImpl {
-	private static final Logger LOG = LoggerFactory.getLogger(MqttRxRestImpl.class);
+@Path("/geojson")
+public class GeoJsonRestImpl {
+	private static final Logger LOG = LoggerFactory.getLogger(GeoJsonRestImpl.class);
 
 	/**
-	 * Allows ReST interface to post mqtt message directly into mqtt message queue
+	 * Allows ReST interface to request geojson nodes
 	 */
 	@POST
 	@Path("/{topic}/{qos}/")
@@ -49,18 +49,11 @@ public class MqttRxRestImpl {
 		LOG.debug("received POST mqtt message: /receive/-topic-/-qos-/ : /receive/"+topic+ "/"+qosStr
 				+ "  json payload "+payloadStr);
 
-		MqttRxService mqttRxService = ServiceLoader.getMqttRxService();
+		NodeGeoJsonService mqttRxService = ServiceLoader.getNodeGeoJsonService();
 		if (mqttRxService == null) throw new RuntimeException("ServiceLoader.getMqttRxService() cannot be null.");
 
 		try{
-			if (topic == null || "".equals(topic)) throw new RuntimeException("topic cannot be null or empty.");
-			if (qosStr == null || "".equals(qosStr)) throw new RuntimeException("qos cannot be null or empty.");
-			int qos = Integer.parseInt(qosStr);
-
-			if (payloadStr == null) throw new RuntimeException("payloadStr cannot be null.");
-			byte[] payload = payloadStr.getBytes("UTF-8");
-			MessageNotification messageNotification = new MessageNotification(topic, qos, payload);
-			mqttRxService.messageArrived(messageNotification);
+			
 		} catch(Exception ex){
 			LOG.error("Problem receiving message: POST mqtt message: /receive/-topic-/-qos-/ : /receive/"+topic+ "/"+qosStr
 					+ "  json payload "+payloadStr,ex);
