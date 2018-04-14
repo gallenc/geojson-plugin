@@ -30,7 +30,7 @@ services:
       timeout: 30s
       retries: 3
     ports:
-      - "5432:5432"
+      - "15432:5432"
 
   opennms:
     container_name: opennms.hzn.core.web
@@ -41,7 +41,6 @@ services:
     networks:
       - opennms.net
     depends_on:
-      - cassandra1
       - database
 
     volumes:

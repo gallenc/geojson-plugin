@@ -66,11 +66,13 @@
       <artifactId>commons-jxpath</artifactId>
       <scope>compile</scope>
     </dependency>
-<!--     <dependency> -->
-<!--       <groupId>org.opennms.protocols</groupId> -->
-<!--       <artifactId>org.opennms.protocols.xml</artifactId> -->
-<!--       <scope>compile</scope> -->
-<!--     </dependency> -->
+    <!-- <dependency> -->
+    <!-- <groupId>org.opennms.protocols</groupId> -->
+    <!-- <artifactId>org.opennms.protocols.xml</artifactId> -->
+    <!-- <scope>compile</scope> -->
+    <!-- </dependency> -->
+
+ 
   </dependencies>
 
   <pluginRepositories>

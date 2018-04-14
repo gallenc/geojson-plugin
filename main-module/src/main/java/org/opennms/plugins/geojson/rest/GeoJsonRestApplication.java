@@ -29,7 +29,7 @@ public class GeoJsonRestApplication extends Application {
 	
 	public GeoJsonRestApplication(){
 		super();
-		LOG.warn("Mqtt ReST Service starting");
+		LOG.warn("GeoJson ReST Service starting");
 	}
 
 	// doing this because the com.sun.ws.rest.api.core.PackagesResourceConfig 
@@ -44,13 +44,8 @@ public class GeoJsonRestApplication extends Application {
 		return s;
 	}
 
-	// Enable LoggingFilter & output entity.   
-	// only for java logging - no use :(
-	// registerInstances(new LoggingFilter(Logger.getLogger(EventGatewayApplication.class.getName()), true));
-	//	}
-	
-	public void destroyMethod(){
-		LOG.warn("Mqtt ReST Service shutting down");
+	public void destroy(){
+		LOG.warn("GeoJson ReST Service shutting down");
 	}
 
 }

@@ -19,14 +19,10 @@
     <productName>GeoJsonPlugin</productName>
     <productFeatureRepository>mvn:${project.groupId}/${productName}/${project.version}/xml/features</productFeatureRepository>
 
-    <licencemanagerVersion>1.0.6</licencemanagerVersion>
+    <licencemanagerVersion>1.0.7</licencemanagerVersion>
     <!-- <licencemanagerVersion>1.1.0-SNAPSHOT</licencemanagerVersion> -->
 
     <org.opennms.version>21.0.5</org.opennms.version>
-    <!-- <org.opennms.version>21.0.4</org.opennms.version> -->
-    <!-- <org.opennms.version>21.0.1</org.opennms.version> -->
-    <!-- <org.opennms.version>20.1.0</org.opennms.version> -->
-    <!-- <org.opennms.version>20.0.2</org.opennms.version> -->
 
     <slf4jVersion>1.7.21</slf4jVersion>
     <log4j2Version>2.8.2</log4j2Version>
@@ -371,16 +367,16 @@
         <version>${jerseyVersion}</version>
         <!-- use opennms jaxb-dependencies from org.opennms.protocols.xml -->
         <exclusions>
-        <exclusion>
-          <groupId>javax.xml.bind</groupId>
-          <artifactId>jaxb-api</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.sun.xml.bind</groupId>
-          <artifactId>jaxb-impl</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
+          <exclusion>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
 
       <dependency>
         <groupId>javax.ws.rs</groupId>
@@ -399,7 +395,6 @@
         <artifactId>commons-jxpath</artifactId>
         <version>${commonsJxpathVersion}</version>
       </dependency>
-
 
     </dependencies>
   </dependencyManagement>

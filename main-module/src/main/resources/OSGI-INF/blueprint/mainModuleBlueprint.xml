@@ -32,104 +32,30 @@
   <reference id="persisterFactory" interface="org.opennms.netmgt.collection.api.PersisterFactory" availability="mandatory" />
 
   <!-- print startup message to karaf console -->
-  <bean id="sayHello" class="org.opennms.plugins.GeoJsonPlugin.SayHello" destroy-method="destroyMethod">
+  <bean id="sayHello" class="org.opennms.plugins.geojson.SayHello" destroy-method="destroyMethod">
   </bean>
 
-  <!-- this bean is initialised by controller -->
-<!--   <bean id="nodeByForeignSourceCache" class="org.opennms.plugins.GeoJsonPlugin.NodeByForeignSourceCacheImpl" destroy-method="destroy"> -->
-<!--     <property name="nodeDao" ref="nodeDao" /> -->
-<!--     <property name="monitoringLocationDao" ref="monitoringLocationDao" /> -->
-<!--     <property name="ipInterfaceDao" ref="ipInterfaceDao" /> -->
-<!--     <property name="assetRecordDao" ref="assetRecordDao" /> -->
-<!--     <property name="eventProxy" ref="eventProxy" /> -->
-<!--     <property name="eventIpcManager" ref="eventIpcManager" /> -->
-<!--     <property name="transactionOperations" ref="transactionOperations" /> -->
-    <!-- <property name="MAX_TTL" value="${org.opennms.plugin.GeoJsonPlugin.cache_max_ttl}" /> -->
-    <!-- <property name="MAX_SIZE" value="${org.opennms.plugin.GeoJsonPlugin.cache_max_size}" /> -->
-    <!-- <property name="createMissingNodes" value="${org.opennms.plugin.GeoJsonPlugin.create-missing-nodes}" /> -->
-    <!-- <property name="createDummyInterfaces" value="${org.opennms.plugin.GeoJsonPlugin.create-dummy-interfaces}" /> -->
-    <!-- <property name="createNodeAssetData" value="${org.opennms.plugin.GeoJsonPlugin.create-node-asset-data}" /> -->
-<!--   </bean> -->
+  <bean id="nodeGeoJsonService" class="org.opennms.plugins.geojson.NodeGeoJsonServiceImpl" destroy-method="destroy" />
 
- 
+  <bean id="geoJsonRestApplication" class="org.opennms.plugins.geojson.rest.GeoJsonRestApplication" destroy-method="destroy" />
 
-  <!-- this bean is initialised by controller -->
-<!--   <bean id="mqttRxService" class="org.opennms.plugins.geojson.rest.MqttRxServiceImpl"> -->
-<!--     <property name="clientInstanceId" value="opennms-rest-client" /> -->
-<!--     <property name="clientType" value="opennms-rest-client" /> -->
+  <!-- constructor public ServiceLoader(MqttService mqttService) -->
+  <bean id="serviceLoader" class="org.opennms.plugins.geojson.rest.ServiceLoader">
+    <argument index="0" ref="nodeGeoJsonService" />
+  </bean>
 
-    <!-- now configured in controller -->
-    <!-- <property name="topicList"> -->
-    <!-- <list> -->
-    <!-- <bean class="org.opennms.plugins.GeoJsonPlugin.MQTTTopicSubscription"> -->
-    <!-- <property name="qos" value="${org.opennms.plugin.GeoJsonPlugin.qos}" /> -->
-    <!-- <property name="topic" value="${org.opennms.plugin.GeoJsonPlugin.eventtopic}" /> -->
-    <!-- </bean> -->
-    <!-- <bean class="org.opennms.plugins.GeoJsonPlugin.MQTTTopicSubscription"> -->
-    <!-- <property name="qos" value="${org.opennms.plugin.GeoJsonPlugin.qos}" /> -->
-    <!-- <property name="topic" value="${org.opennms.plugin.GeoJsonPlugin.datatopic}" /> -->
-    <!-- </bean> -->
-    <!-- </list> -->
-    <!-- </property> -->
-<!--   </bean> -->
-
-<!--   <bean id="mqttRestApplication" class="org.opennms.plugins.geojson.rest.GeoJsonRestApplication" destroy-method="destroyMethod" /> -->
-
-<!-- constructor public ServiceLoader(MqttService mqttService) --> 
-<!--   <bean id="serviceLoader" class="org.opennms.plugins.geojson.rest.ServiceLoader"> -->
-<!--     <argument index="0" ref="mqttRxService" /> -->
-<!--   </bean> -->
-
-  <!-- ReST Servelet configuration for jersey. Service will be at /opennms/plugin/mqtt/v1-0/receive/mqtt-events/0/ -->
-<!--   <service interface="javax.servlet.http.HttpServlet"> -->
-<!--     <service-properties> -->
-<!--       <entry key="alias" value="/plugin/geojson/v1-0" /> -->
-<!--     </service-properties> -->
-<!--     <bean class="com.sun.jersey.spi.container.servlet.ServletContainer"> -->
-<!--       <argument ref="mqttRestApplication" /> -->
-<!--     </bean> -->
-<!--   </service> -->
-
-  <!-- ReST Servelet configuration for jersey -->
-  <!-- <bean id="mqttRestServlet" class="com.sun.jersey.spi.container.servlet.ServletContainer"> -->
-  <!-- <argument ref="mqttRestApplication" /> -->
-  <!-- </bean> -->
-
-  <!-- service will be at service will be at /opennms/plugin/mqtt/v1-0/receive/mqtt-events/0/ -->
-  <!-- <service interface="javax.servlet.Servlet" ref="mqttRestServlet"> -->
-  <!-- <service-properties> -->
-  <!-- <entry key="alias" value="/rest/mqtt/v1-0" /> -->
-  <!-- </service-properties> -->
-  <!-- </service> -->
+  <!-- ReST Servelet configuration for jersey. Service will be at http://localhost:8980/opennms/plugin/geojson/v1-0 -->
+  <!-- Service will be at http://localhost:8980/opennms/plugin/geojson/v1-0/geojson/nodes -->
+  <service interface="javax.servlet.http.HttpServlet">
+    <service-properties>
+      <entry key="alias" value="/plugin/geojson/v1-0" />
+    </service-properties>
+    <bean class="com.sun.jersey.spi.container.servlet.ServletContainer">
+      <argument ref="geoJsonRestApplication" />
+    </bean>
+  </service>
 
 
-  <!-- <bean id="valuePersister" class="org.opennms.plugins.messagenotifier.datanotifier.ValuePersister" init-method="init" destroy-method="destroy"> -->
-  <!-- <property name="nodeByForeignSourceCache" ref="nodeByForeignSourceCache" /> -->
-  <!-- <property name="persisterFactory" ref="persisterFactory" /> -->
-  <!-- <property name="configDao" ref="configDao" /> -->
-  <!-- </bean> -->
-
-  <!-- <bean id="configDao" class="org.opennms.plugins.messagenotifier.datanotifier.ConfigDao"> -->
-
-  <!-- <property name="foreignSource" value="${org.opennms.plugin.GeoJsonPlugin.message.foreignsource}" /> -->
-  <!-- <property name="foreignIdKey" value="${org.opennms.plugin.GeoJsonPlugin.message.foreignidkey}" /> -->
-  <!-- <property name="timeStampKey" value="${org.opennms.plugin.GeoJsonPlugin.message.timestampkey}" /> -->
-
-  <!-- <property name="latitudeKey" value="${org.opennms.plugin.GeoJsonPlugin.message.latitudekey}" /> -->
-  <!-- <property name="longitudeKey" value="${org.opennms.plugin.GeoJsonPlugin.message.longitudekey}" /> -->
-
-  <!-- <property name="dateTimeFormatPattern" value="${org.opennms.plugin.GeoJsonPlugin.message.time-format-pattern}" /> -->
-  <!-- <property name="timeZoneOffset" value="${org.opennms.plugin.GeoJsonPlugin.message.time-zone-offset}" /> -->
-
-  <!-- <property name="guageKeysProperty" value="${org.opennms.plugin.GeoJsonPlugin.message.persist.guagekeys}" /> -->
-  <!-- <property name="counterKeysProperty" value="${org.opennms.plugin.GeoJsonPlugin.message.persist.counterkeys}" /> -->
-  <!-- <property name="stringKeysProperty" value="${org.opennms.plugin.GeoJsonPlugin.message.persist.stringkeys}" /> -->
-
-  <!-- <property name="group" value="${org.opennms.plugin.GeoJsonPlugin.message.persist.group}" /> -->
-  <!-- <property name="intervalInSecondsStr" value="${org.opennms.plugin.GeoJsonPlugin.message.persist.interval}" /> -->
-  <!-- <property name="rrasProperty" value="${org.opennms.plugin.GeoJsonPlugin.message.persist.rras}" /> -->
-
-  <!-- </bean> -->
 
 
 
@@ -171,49 +97,7 @@
   <!-- </cm:default-properties> -->
   <!-- </cm:property-placeholder> -->
 
-  <!-- GeoJsonPluginImpl(String brokerUrl, String clientId, String userName, String password, String connectionRetryInterval) -->
-  <!-- <bean id="GeoJsonPluginMessageNotifier" class="org.opennms.plugins.GeoJsonPlugin.GeoJsonPluginImpl" init-method="init" destroy-method="destroy"> -->
-  <!-- <argument index="0" value="${org.opennms.plugin.GeoJsonPlugin.brokerUrl}" /> -->
-  <!-- <argument index="1" value="${org.opennms.plugin.GeoJsonPlugin.clientId}" /> -->
-  <!-- <argument index="2" value="${org.opennms.plugin.GeoJsonPlugin.userName}" /> -->
-  <!-- <argument index="3" value="${org.opennms.plugin.GeoJsonPlugin.password}" /> -->
-  <!-- <argument index="4" value="${org.opennms.plugin.GeoJsonPlugin.connectionRetryInterval}" /> -->
 
-  <!-- <property name="topicList"> -->
-  <!-- <list> -->
-  <!-- <bean class="org.opennms.plugins.mqtt.config.MQTTTopicSubscription"> -->
-  <!-- <property name="qos" value="${org.opennms.plugin.GeoJsonPlugin.qos}" /> -->
-  <!-- <property name="topic" value="${org.opennms.plugin.GeoJsonPlugin.eventtopic}" /> -->
-  <!-- </bean> -->
-  <!-- <bean class="org.opennms.plugins.mqtt.config.MQTTTopicSubscription"> -->
-  <!-- <property name="qos" value="${org.opennms.plugin.GeoJsonPlugin.qos}" /> -->
-  <!-- <property name="topic" value="${org.opennms.plugin.GeoJsonPlugin.datatopic}" /> -->
-  <!-- </bean> -->
-  <!-- </list> -->
-  <!-- </property> -->
-
-  <!-- </bean> -->
-
-  <!-- <bean id="messageNotifierClient" class="org.opennms.plugins.messagenotifier.MessageNotificationClientQueueImpl" init-method="init" destroy-method="destroy"> -->
-  <!-- <property name="messageNotifiers"> -->
-  <!-- <list> -->
-  <!-- <ref component-id="GeoJsonPluginMessageNotifier" /> Mqtt Client -->
-  <!-- <ref component-id="mqttRxService" /> ReST Client -->
-  <!-- </list> -->
-  <!-- </property> -->
-
-  <!-- <property name="maxMessageQueueLength" value="1000" /> -->
-
-  <!-- <property name="topicHandlingClients"> -->
-  <!-- <map> -->
-  <!-- <entry key="${org.opennms.plugin.GeoJsonPlugin.eventtopic}" value-ref="mqttEventNotificationClient" /> -->
-  <!-- <entry key="${org.opennms.plugin.GeoJsonPlugin.datatopic}" value-ref="mqttDataNotificationClient" /> -->
-  <!-- </map> -->
-  <!-- </property> -->
-  <!-- </bean> -->
-
-  <!-- used for testing only -->
-  <!-- <bean id="verySimpleClient" class="org.opennms.plugins.dbnotifier.VerySimpleNotificationClient" /> -->
 
 
 </blueprint>
